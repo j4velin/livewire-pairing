@@ -1,5 +1,7 @@
 # livewire-pairing
 
+> **Disclaimer:** This project is not affiliated with, endorsed by or supported by LiveWire or Harley-Davidson. It uses the undocumented API of the LiveWire app, which may change or stop working at any time. Use at your own risk.
+
 Pairs a device with your LiveWire motorcycle so that [evcc](https://evcc.io) can read its charging state.
 
 evcc talks to the same cloud API as the LiveWire app. That API only answers devices that have been paired with the motorcycle once. Pairing requires a code shown on the bike's display, so it cannot happen inside evcc. This script does it for you and prints the device UUID that goes into the evcc configuration.
@@ -54,8 +56,6 @@ Credentials can also be passed through the environment variables `LW_USER` and `
 5. Polls `pairing/status` until the backend confirms
 
 Nothing is stored on disk. The credentials are only used for the login and never leave your machine except towards the LiveWire servers.
-
-This is not affiliated with LiveWire or Harley-Davidson. The API is undocumented and may change.
 
 ## License
 
