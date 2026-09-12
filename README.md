@@ -54,3 +54,7 @@ Credentials can also be passed through the environment variables `LW_USER` and `
 Nothing is stored on disk. The credentials are only used for the login and never leave your machine except towards the LiveWire servers.
 
 This is not affiliated with LiveWire or Harley-Davidson. The API is undocumented and may change.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
