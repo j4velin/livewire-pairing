@@ -145,9 +145,9 @@ def choose_bike(bikes):
             return bikes[int(choice) - 1]
 
 
-def print_result(device_uuid, bike):
+def print_result(device_uuid, bike, user, heading="Pairing complete."):
     print("\n" + "=" * 64)
-    print("Pairing complete. Put this into your evcc configuration:")
+    print(f"{heading} Put this into your evcc configuration:")
     print()
     print(f"    deviceUUID: {device_uuid}")
     print()
@@ -158,7 +158,7 @@ def print_result(device_uuid, bike):
     print("vehicles:")
     print("  - name: livewire")
     print("    type: livewire")
-    print("    user: <your LiveWire account email>")
+    print(f"    user: {user}")
     print("    password: <your password>")
     print(f"    deviceUUID: {device_uuid}")
     if bike.get("vin"):
@@ -188,7 +188,7 @@ def main():
     print(f"\nMotorcycle: {bike.get('year', '')} {bike.get('model', '')} \"{bike.get('name', '')}\" (VIN {bike.get('vin')})")
 
     if bike.get("pairingStatus"):
-        print_result(device_uuid, bike, heading="Device is already paired with this motorcycle.")
+        print_result(device_uuid, bike, user, heading="Device is already paired with this motorcycle.")
         return
 
     print("\nGo to the motorcycle, switch the ignition on and wake the display.")
@@ -204,7 +204,7 @@ def main():
 
     for _ in range(12):
         if api.paired(bike_id):
-            print_result(device_uuid, bike)
+            print_result(device_uuid, bike, user)
             return
         time.sleep(5)
 
