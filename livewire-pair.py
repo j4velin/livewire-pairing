@@ -121,6 +121,14 @@ class Api:
         return bool(self.call("GET", f"/bikes/pairing/status/{bike_id}").get("pairingStatus"))
 
 
+def read_password():
+    # getpass reads the Windows console directly and blocks forever under
+    # Git Bash or IDE terminals, where stdin is a pipe rather than a console
+    if sys.stdin.isatty():
+        return getpass.getpass("Password: ")
+    return input("Password (will be visible): ")
+
+
 def choose_bike(bikes):
     if not bikes:
         sys.exit("No motorcycles found on this account.")
@@ -169,7 +177,7 @@ def main():
         sys.exit(f"not a valid uuid: {device_uuid}")
 
     user = os.environ.get("LW_USER") or input("LiveWire account email: ").strip()
-    password = os.environ.get("LW_PASS") or getpass.getpass("Password: ")
+    password = os.environ.get("LW_PASS") or read_password()
 
     print("\nLogging in...")
     jwt = session(gigya_uid(user, password), device_uuid)
