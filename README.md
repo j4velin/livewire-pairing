@@ -4,6 +4,8 @@ Pairs a device with your LiveWire motorcycle so that [evcc](https://evcc.io) can
 
 evcc talks to the same cloud API as the LiveWire app. That API only answers devices that have been paired with the motorcycle once. Pairing requires a code shown on the bike's display, so it cannot happen inside evcc. This script does it for you and prints the device UUID that goes into the evcc configuration.
 
+Tested only with a LiveWire S2 (2025 Mulholland). Other models such as the LiveWire One or the Del Mar may use a different pairing flow and are not guaranteed to work. If you try one, please open an issue with the result.
+
 ## Requirements
 
 - Python 3.8 or newer, no additional packages
