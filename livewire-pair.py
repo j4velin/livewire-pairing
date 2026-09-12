@@ -188,8 +188,7 @@ def main():
     print(f"\nMotorcycle: {bike.get('year', '')} {bike.get('model', '')} \"{bike.get('name', '')}\" (VIN {bike.get('vin')})")
 
     if bike.get("pairingStatus"):
-        print(f"Device {device_uuid} is already paired with this motorcycle.")
-        print_result(device_uuid, bike)
+        print_result(device_uuid, bike, heading="Device is already paired with this motorcycle.")
         return
 
     print("\nGo to the motorcycle, switch the ignition on and wake the display.")
