@@ -211,10 +211,31 @@ def main():
     sys.exit("The motorcycle did not confirm the pairing. Check the code and run the script again.")
 
 
+def wait_before_close():
+    # the prebuilt executable is usually started by double-click, and its
+    # console window would close before the result could be read
+    if getattr(sys, "frozen", False) and sys.stdin.isatty():
+        try:
+            input("\nPress Enter to close this window... ")
+        except (EOFError, KeyboardInterrupt):
+            pass
+
+
 if __name__ == "__main__":
     try:
         main()
     except ApiError as e:
-        sys.exit(f"\nError: {e}")
+        print(f"\nError: {e}", file=sys.stderr)
+        wait_before_close()
+        sys.exit(1)
     except KeyboardInterrupt:
         sys.exit("\nAborted.")
+    except SystemExit as e:
+        if isinstance(e.code, str):
+            print(e.code, file=sys.stderr)
+            wait_before_close()
+            sys.exit(1)
+        if e.code:
+            wait_before_close()
+        raise
+    wait_before_close()
