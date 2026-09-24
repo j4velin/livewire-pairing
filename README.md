@@ -10,11 +10,40 @@ Tested only with a LiveWire S2 (2025 Mulholland). Other models such as the LiveW
 
 ## Requirements
 
-- Python 3.8 or newer, no additional packages
 - Your LiveWire account credentials
 - Being at the motorcycle once, ignition on
 
 ## Usage
+
+Pick whichever of these is easiest for you. They all run the same script.
+
+### Option 1: Download the program (no Python needed)
+
+Download the file for your system from the [latest release](https://github.com/j4velin/livewire-pairing/releases/latest) and start it:
+
+- **Windows:** `livewire-pair-windows.exe`, double-click it. SmartScreen may warn about an unknown publisher; choose "More info" → "Run anyway".
+- **macOS:** `livewire-pair-macos` (Apple Silicon). In Terminal: `chmod +x livewire-pair-macos && xattr -d com.apple.quarantine livewire-pair-macos && ./livewire-pair-macos`
+- **Linux:** `livewire-pair-linux`, then `chmod +x livewire-pair-linux && ./livewire-pair-linux`
+
+The files are built from this repository by [GitHub Actions](.github/workflows/release.yml).
+
+### Option 2: Run it in the browser (nothing to download)
+
+Needs a free GitHub account. This works from a phone too, which is handy when standing next to the motorcycle.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/j4velin/livewire-pairing?quickstart=1)
+
+Once the codespace has loaded, type into the terminal at the bottom:
+
+```
+python livewire-pair.py
+```
+
+The script then runs on a virtual machine of GitHub in your account. Delete the codespace afterwards under [github.com/codespaces](https://github.com/codespaces).
+
+### Option 3: Run it with Python
+
+Requires Python 3.8 or newer, no additional packages.
 
 ```
 python livewire-pair.py
@@ -55,7 +84,7 @@ Credentials can also be passed through the environment variables `LW_USER` and `
 4. `POST /bikes/{id}/verify/code` sends that code back
 5. Polls `pairing/status` until the backend confirms
 
-Nothing is stored on disk. The credentials are only used for the login and never leave your machine except towards the LiveWire servers.
+Nothing is stored on disk. The credentials are only used for the login and are only sent to the LiveWire servers (in a codespace, they pass through the virtual machine GitHub runs for you).
 
 ## License
 

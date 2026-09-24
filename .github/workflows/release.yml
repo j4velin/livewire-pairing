@@ -1,0 +1,56 @@
+name: Release
+
+# Builds standalone executables of livewire-pair.py, so users need no Python
+# installation. Push a tag like v1.0.0 to publish them as a GitHub release;
+# a manual run only uploads them as workflow artifacts.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            name: livewire-pair-windows.exe
+          - os: macos-latest
+            name: livewire-pair-macos
+          - os: ubuntu-latest
+            name: livewire-pair-linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyinstaller
+      - run: pyinstaller --onefile --name livewire-pair livewire-pair.py
+      - name: Rename
+        shell: bash
+        run: |
+          src=dist/livewire-pair
+          [ -f "$src.exe" ] && src="$src.exe"
+          mv "$src" "dist/${{ matrix.name }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: dist/${{ matrix.name }}
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
